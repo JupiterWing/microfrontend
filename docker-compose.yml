@@ -1,0 +1,167 @@
+version: '3'
+
+services:
+  #  MAIN SINGLE SPA APP
+  single-spa:
+    build:
+      context: ./apps/single-spa
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.single-spa.rule=PathPrefix(`/`)'
+      - 'traefik.http.services.single-spa.loadbalancer.server.port=9000'
+    depends_on:
+      - reverse-proxy
+
+  # MFE APPS
+  root-react:
+    build:
+      context: ./apps/root
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.root-react.rule=Path(`/dk-react-ui.js`)'
+      - 'traefik.http.services.root-react.loadbalancer.server.port=9005'
+    depends_on:
+      - reverse-proxy
+
+  rig-overview-vue:
+    build:
+      context: ./apps/rig-overview-vue
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.rig-overview-vue.rule=Path(`/rig-overview-vue.js`)'
+      - 'traefik.http.services.rig-overview-vue.loadbalancer.server.port=5151'
+    depends_on:
+      - reverse-proxy
+
+  svelte-app:
+    build:
+      context: ./apps/svelte
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.svelte-app.rule=Path(`/svelte-app.js`)'
+      - 'traefik.http.services.svelte-app.loadbalancer.server.port=4141'
+    depends_on:
+      - reverse-proxy
+  angular-spa:
+    build:
+      context: ./apps/angular-spa
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.angular-spa.rule=Path(`/angular-spa.js`)'
+      - 'traefik.http.services.angular-spa.loadbalancer.server.port=7001'
+    depends_on:
+      - reverse-proxy
+
+  dk-re-react:
+    build:
+      context: ./apps/re-react
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.dk-re-react.rule=Path(`/dk-re-react.js`)'
+      - 'traefik.http.services.dk-re-react.loadbalancer.server.port=8081'
+    depends_on:
+      - reverse-proxy
+
+  dk-rig-info-react:
+    build:
+      context: ./apps/rig-info-react
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.dk-rig-info-react.rule=Path(`/dk-rig-info-react.js`)'
+      - 'traefik.http.services.dk-rig-info-react.loadbalancer.server.port=8500'
+    depends_on:
+      - reverse-proxy
+
+  status-bar-svelte:
+    build:
+      context: ./apps/status-bar-svelte
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.status-bar-svelte.rule=Path(`/spa.js`)'
+      - 'traefik.http.services.status-bar-svelte.loadbalancer.server.port=2424'
+    depends_on:
+      - reverse-proxy
+
+  # BACKEND
+  angular-backend:
+    build:
+      context: ./apps/backend/angular_backend
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.angular-backend.rule=PathPrefix(`/api/angular-spa-api`)'
+      - 'traefik.http.services.angular-backend.loadbalancer.server.port=5195'
+    depends_on:
+      - reverse-proxy
+  rig-overview-api:
+    build:
+      context: ./apps/backend/rig-overview-api
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.rig-overview-api.rule=PathPrefix(`/api/rig-overview-api`)'
+      - 'traefik.http.services.rig-overview-api.loadbalancer.server.port=5288'
+    depends_on:
+      - reverse-proxy
+
+  bar-chart-backend:
+    build:
+      context: ./apps/backend/bar-chart-backend
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.bar-chart-backend.rule=PathPrefix(`/api/bar-chart-backend`)'
+      - 'traefik.http.services.bar-chart-backend.loadbalancer.server.port=5036'
+    depends_on:
+      - reverse-proxy
+
+  rig-messenger-api:
+    build:
+      context: ./apps/backend/rig-messenger-api
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.rig-messenger-api.rule=PathPrefix(`/api/rig-messenger-api`)'
+      - 'traefik.http.services.rig-messenger-api.loadbalancer.server.port=5289'
+    depends_on:
+      - reverse-proxy
+  well-info-api:
+    build:
+      context: ./apps/backend/well-info-api
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.well-info-api.rule=PathPrefix(`/api/well-info-api`)'
+      - 'traefik.http.services.well-info-api.loadbalancer.server.port=5096'
+
+    depends_on:
+      - reverse-proxy
+
+  status-bar-api:
+    build:
+      context: ./apps/backend/status-bar-api
+      dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.status-bar-api.rule=PathPrefix(`/api/status-bar-api`)'
+      - 'traefik.http.services.status-bar-api.loadbalancer.server.port=5126'
+    depends_on:
+      - reverse-proxy
+
+  # TRAEFIK
+  reverse-proxy:
+    image: traefik:v2.11
+    command: --api.insecure=true --providers.docker --log.level=DEBUG
+    ports:
+      - '80:80'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -1,0 +1,16 @@
+:host ::ng-deep .p-inputnumber .p-inputnumber-input {
+  width: 100px;
+}
+
+
+.layout-button {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+:host ::ng-deep .p-divider-solid.p-divider-horizontal:before {
+  border-top-style: solid !important;
+}

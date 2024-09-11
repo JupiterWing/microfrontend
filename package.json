@@ -1,0 +1,37 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:root": "pnpm --filter root-dashboard run start:standalone", 
+    "start:single-spa": "pnpm --filter @dk/root-config run dev",
+    "start:root-angular": "pnpm --filter root-angular run serve:single-spa:root-angular", 
+    "start:all": "concurrently --names \"ROOT-UI,ANGULAR,ROOT\" -c \"blue,red,white\" \"pnpm run start:root\" \"pnpm run start:root-angular\" \"pnpm run start:single-spa\" --exit",
+    "test:root": "pnpm --filter @dk/root-dashboard run test",
+    "test:single-spa": "pnpm --filter @dk/root-config run test --coverage",
+    "test:root-angular": "pnpm --filter root-angular run test:coverage",
+    "test:all": "concurrently --names \"REACT-ROOT,ANGULAR,ROOT\" -c \"blue,red,white\" \"pnpm run test:root\" \"pnpm run test:root-angular\" \"pnpm run test:single-spa\"  --exit",
+    "format": "pnpm -r run format",
+    "lint": "pnpm -r run lint",
+    "prepare": "cd .. "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^7.0.4",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "pnpm": "^9.4.0"
+  }
+}

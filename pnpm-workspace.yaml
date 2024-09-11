@@ -1,0 +1,6 @@
+packages:
+  - 'apps/**' # Launchable apps
+  - 'packages/**' # Packages for apps
+  - '!**/test/**' # Ignore app test dirs
+virtualStoreDir: '.pnpm-store'
+# linkDependencies: true

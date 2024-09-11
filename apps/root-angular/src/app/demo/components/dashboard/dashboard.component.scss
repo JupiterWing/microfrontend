@@ -1,0 +1,30 @@
+.p-speeddial-actio-label {
+    padding: 0.5em 1em;
+    background-color: green;
+    color:#ffff;
+    border-radius: 4px;
+    margin: 0.5em 0;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.p-speeddial-action {
+    border:none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.splitter-container{
+    height: 800px;
+}
+
+p-panel {
+    height: 100%;
+}
+
+p-splitterPanel {
+    display: flex;
+    flex-direction: column;
+}

@@ -11,4 +11,4 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
 EXPOSE 7001
-CMD [ "pnpm", "serve:single-spa:angular-spa" ]
+CMD [ "pnpm", "serve:single-spa:root-angular" ]

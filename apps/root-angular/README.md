@@ -19,7 +19,7 @@ pnpm install
 To run this component locally, execute:
 
 ```bash
-pnpm run serve:single-spa:angular-spa
+pnpm run serve:single-spa:root-angular
 ```
 
 ## Building
